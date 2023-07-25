@@ -15,7 +15,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/collaborative_oj");
 
 app.use(express.static(path.join(__dirname, "../public")));
 
-app.use(cors);
+app.use(cors());
 app.use("/", indexRouter);
 app.use("/api/v1", restRouter);
 
