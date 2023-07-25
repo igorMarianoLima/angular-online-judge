@@ -5,7 +5,7 @@ import uuid
 
 from docker.errors import *
 
-IMAGE_NAME = "qianmao/cs503_coj_demo_1"
+IMAGE_NAME = "executor/judge"
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 TEMP_BUILD_DIR = "%s/tmp/" % CURRENT_DIR
@@ -36,12 +36,12 @@ def load_image():
     try:
         client.images.get(IMAGE_NAME)
     except ImageNotFound:
-        print "Image not found locally. Loading from Dockerhub..."
+        print("Image not found locally. Loading from Dockerhub...")
         client.images.pull(IMAGE_NAME)
     except APIError:
-        print "Image not found locally. DockerHub is not accessible."
+        print("Image not found locally. DockerHub is not accessible.")
         return
-    print "Image:[%s] loaded" % IMAGE_NAME
+    print("Image:[%s] loaded" % IMAGE_NAME)
 
 def build_and_run(code, lang):
     result = {'build': None, 'run': None, 'error': None}
@@ -60,10 +60,10 @@ def build_and_run(code, lang):
             command="%s %s" % (BUILD_COMMANDS[lang], SOURCE_FILE_NAMES[lang]),
             volumes={source_file_host_dir: {'bind': source_file_guest_dir, 'mode': 'rw'}},
             working_dir=source_file_guest_dir)
-        print "Source built."
+        print("Source built.")
         result['build'] = 'OK'
     except ContainerError as e:
-        print "Build failed."
+        print("Build failed.")
         result['build'] = e.stderr
         shutil.rmtree(source_file_host_dir)
         return result
@@ -74,10 +74,10 @@ def build_and_run(code, lang):
             command="%s %s" % (EXECUTE_COMMANDS[lang], BINARY_NAMES[lang]),
             volumes={source_file_host_dir: {'bind': source_file_guest_dir, 'mode': 'rw'}},
             working_dir=source_file_guest_dir)
-        print "Executed."
+        print("Executed.")
         result['run'] = log
     except ContainerError as e:
-        print "Execution failed."
+        print("Execution failed.")
         result['run'] = e.stderr
         shutil.rmtree(source_file_host_dir)
         return result
@@ -88,6 +88,6 @@ def build_and_run(code, lang):
 def make_dir(dir):
     try:
         os.mkdir(dir)
-        print "Temp build directory [%s] created." % dir
+        print("Temp build directory [%s] created." % dir)
     except OSError:
-        print "Temp build directory [%s] exists." % dir
+        print("Temp build directory [%s] exists." % dir)

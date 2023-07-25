@@ -14,7 +14,7 @@ def hello():
 
 @app.route("/build_and_run", methods=["POST"])
 def build_and_run():
-    print "Got called: %s" % (request.data)
+    print(f"Got called: {request.data}")
     data = json.loads(request.data)
 
     if 'code' not in data or 'lang' not in data:
@@ -22,7 +22,7 @@ def build_and_run():
     code = data['code']
     lang = data['lang']
 
-    print "API got called with code: %s in %s" % (code, lang)
+    print(f"API got called with code: {code} in {lang}")
 
     result = eu.build_and_run(code, lang)
     return jsonify(result)
