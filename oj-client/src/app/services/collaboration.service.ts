@@ -15,7 +15,11 @@ export class CollaborationService {
   constructor() { }
 
   init(editor: any, sessionId: string): void {
-    this.collaborationSocket = io(window.location.origin, { query: 'sessionId=' + sessionId });
+    const socketServerAddress = window.location.origin.substring(0, window.location.origin.indexOf(window.location.port));
+    const serverPort = 3000;
+    const socket = socketServerAddress + serverPort;
+
+    this.collaborationSocket = io(socket, { query: 'sessionId=' + sessionId });
 
     this.collaborationSocket.on("change", (delta: string) => {
       console.log('collaboration: editor changes by ' + delta);
@@ -41,8 +45,8 @@ export class CollaborationService {
         let css = document.createElement("style");
         css.type = "text/css";
         css.innerHTML = ".editor_cursor_" + changeClientId
-            + " { position:absolute; background:" + COLORS[this.clientNum] + ";"
-            + " z-index: 100; width:3px !important; }";
+          + " { position:absolute; background:" + COLORS[this.clientNum] + ";"
+          + " z-index: 100; width:3px !important; }";
 
         document.body.appendChild(css);
         this.clientNum++;
@@ -63,7 +67,7 @@ export class CollaborationService {
     this.collaborationSocket.emit("change", delta);
   }
 
-  cursorMove(cursor : string): void {
+  cursorMove(cursor: string): void {
     this.collaborationSocket.emit("cursorMove", cursor);
   }
 
