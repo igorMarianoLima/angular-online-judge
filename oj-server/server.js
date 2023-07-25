@@ -5,6 +5,7 @@ var indexRouter = require("./routes/index");
 var mongoose = require("mongoose");
 var path = require("path");
 var http = require("http");
+var cors = require("cors");
 
 var socket_io = require("socket.io");
 var io = socket_io();
@@ -14,6 +15,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/collaborative_oj");
 
 app.use(express.static(path.join(__dirname, "../public")));
 
+app.use(cors);
 app.use("/", indexRouter);
 app.use("/api/v1", restRouter);
 
