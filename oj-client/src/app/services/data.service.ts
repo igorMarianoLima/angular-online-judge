@@ -35,7 +35,7 @@ export class DataService {
 
   addProblem(problem: Problem): Promise<Problem> {
     let headers = new Headers({ 'content-type': 'application/json' });
-    return this.http.post(`${this.apiBase}/api/v1/problems`, problem, headers)
+    return this.http.post(`${this.apiBase}/api/v1/problems`, problem, { headers })
       .toPromise()
       .then((res: Response) => {
         this.getProblems();
@@ -46,7 +46,7 @@ export class DataService {
 
   buildAndRun(data): Promise<Object> {
     let headers = new Headers({ 'content-type': 'application/json' });
-    return this.http.post(`${this.apiBase}/api/v1/build_and_run`, data, headers)
+    return this.http.post(`${this.apiBase}/api/v1/build_and_run`, data, { headers })
       .toPromise()
       .then((res: Response) => {
         console.log(res);
