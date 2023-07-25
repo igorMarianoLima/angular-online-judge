@@ -1,0 +1,25 @@
+Requisitos:
+    . Redis
+    . MongoDB
+    . Docker
+    . Node v10
+    . Python
+    . SO: Linux (ou caso esteja utilizando Windows, utilize WSL)
+
+Como abrir a aplicação:
+    - Abra o terminal
+    - Execute o seguinte comando (somente na primeira vez): sudo chmod +x launcher.sh
+    - Execute o seguinte comando: ./launcher.sh
+
+    * Caso haja algum erro:
+        Verifique se o erro se relaciona com o Docker, caso sim, tente esses passos:
+            Execute os seguintes comandos:
+                docker -v
+                -- Verifique se o docker está instalado. Caso sim, prossiga
+
+                cd executor
+                docker build -t executor/judge .
+                -- Aguarde e tente executar a aplicação novamente após todo o processo
+
+Observações:
+    - A aplicação originalmente utiliza um sistema de autenticação real (Auth0Lock), porém o mesmo apresentou problemas ao realizar login/cadastro, dessa forma ajustei para que caso o login falhe seja logado como um usuário padrão (Com permissões de administrador)
